@@ -1,10 +1,8 @@
-# django-model-documentation
- 
-# License
- 
+# -*- coding: utf-8 -*-
+"""
 The MIT License (MIT)
 
-Copyright 2015 KelsonCM.
+Copyright 2015 Umbrella Tech.
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of
 this software and associated documentation files (the "Software"), to deal in
@@ -22,9 +20,5 @@ FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
 COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-http://peterdowns.com/posts/first-time-with-pypi.html
-
-
-# como publicar
-
-http://peterdowns.com/posts/first-time-with-pypi.html
+"""
+__author__ = 'Kelson da Costa Medeiros <kelsoncm@gmail.com>'

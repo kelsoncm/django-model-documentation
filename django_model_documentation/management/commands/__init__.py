@@ -21,4 +21,47 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
+from django.conf import settings
+from django.db.models.base import ModelBase
+from django.apps.registry import Apps
+
+
 __author__ = 'Kelson da Costa Medeiros <kelsoncm@gmail.com>'
+
+
+def get_models():
+    result = []
+    apps = Apps(settings.INSTALLED_APPS)
+    for app_config in apps.get_app_configs():
+        for attr_name in dir(app_config.models_module):
+            attr = getattr(app_config.models_module, attr_name)
+            if isinstance(attr, ModelBase) and attr.__module__ == '%s.models' % app_config.module.__name__:
+                result.append(attr)
+    return result
+
+
+def get_models_to_doc():
+    return [x for x in get_models() if not skip_model(x._meta)]
+
+
+def skip_model(meta):
+    return meta.abstract or (meta.db_table == 'auth_user' and 'AUTH_USER_MODEL' in dir(settings))
+
+
+def normalize_comment(clear_comment):
+    return clear_comment.replace("'", "''")
+
+
+def get_comment(meta, name, verbose_name):
+    if 'comments' in dir(meta) and name in meta.comments:
+        return u'%s' % meta.comments[name]
+    elif 'id' == name:
+        if 'DJANGO_COMMENT_DOCUMENTATION_DEFAULT_ID_COMMENT' in dir(settings):
+            if callable(settings.DJANGO_COMMENT_DOCUMENTATION_DEFAULT_ID_COMMENT):
+                return u'%s' % settings.DJANGO_COMMENT_DOCUMENTATION_DEFAULT_ID_COMMENT()
+            else:
+                return u'%s' % settings.DJANGO_COMMENT_DOCUMENTATION_DEFAULT_ID_COMMENT
+        else:
+            return u"Identificador único"
+    else:
+        return u'%s' % verbose_name

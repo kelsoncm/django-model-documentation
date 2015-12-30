@@ -21,14 +21,10 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
-import os
-
-from django.core.wsgi import get_wsgi_application
+from django.conf.urls import patterns
 
 
 __author__ = 'Kelson da Costa Medeiros <kelsoncm@gmail.com>'
 
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_model_documentation.settings")
-
-application = get_wsgi_application()
+urlpatterns = ()

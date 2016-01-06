@@ -60,7 +60,7 @@ class Command(BaseCommand):
                     u'div {font-weight: 700}'
                     u'label {margin-right: 10px; font-weight: 400}'
                     u'td, th {border: 1px solid #000; margin: 0; padding: 0}'
-                    # u'table {width: 100%;}'
+                    u'table {border-spacing: 0; border-collapse: collapse;}'
                     u'</style></head><body>'
                     u'<h1>Legenda</h1>'
                     u'<div><label>PK</label>Chave primária</div>'

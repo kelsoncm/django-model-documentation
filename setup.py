@@ -10,7 +10,7 @@ setup(
     author='Kelson da Costa Medeiros',
     author_email='kelsoncm@gmail.com',
     url='https://github.com/kelsoncm/django_model_documentation', 
-    download_url='https://github.com/kelsoncm/django_model_documentation/tarball/0.3',
+    download_url='https://github.com/kelsoncm/django_model_documentation/releases/tag/0.3',
     keywords=['django', 'model', 'documentation', ],
     classifiers=[]
 )

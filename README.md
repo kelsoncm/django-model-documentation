@@ -25,6 +25,30 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 http://peterdowns.com/posts/first-time-with-pypi.html
 
 
-# como publicar
+# Upgrade dependency
 
-http://peterdowns.com/posts/first-time-with-pypi.html
+```bash
+pip install --upgrade django_model_documentation
+```
+
+Add the app (django_model_documentation) in INSTALLED_APPS in your settings project.
+
+
+## Generate documentação em HTML
+
+To generate the documentation as a HTML file named result.html on project root. 
+
+```bash
+python manage.py comment2html
+```
+
+
+## Gera a documentação como comentários no banco de dados
+
+To migrate the documentation as DBRMS comments.
+
+```bash
+python manage.py comment2database
+```
+
+

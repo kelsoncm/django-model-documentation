@@ -5,12 +5,12 @@ setup(
     packages=['django_model_documentation',
               'django_model_documentation.management',
               'django_model_documentation.management.commands'],
-    version='0.4',
+    version='0.5',
     description='Django Application for output a documentation of apps models',
     author='Kelson da Costa Medeiros',
     author_email='kelsoncm@gmail.com',
     url='https://github.com/kelsoncm/django_model_documentation', 
-    download_url='https://github.com/kelsoncm/django_model_documentation/releases/tag/0.4',
+    download_url='https://github.com/kelsoncm/django_model_documentation/releases/tag/0.5',
     keywords=['django', 'model', 'documentation', ],
     classifiers=[]
 )

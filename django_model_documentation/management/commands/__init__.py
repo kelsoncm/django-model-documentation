@@ -21,6 +21,7 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
+from importlib import import_module
 from django.conf import settings
 from django.db.models.base import ModelBase
 from django.apps.registry import Apps
@@ -33,6 +34,13 @@ def get_models():
     result = []
     apps = Apps(settings.INSTALLED_APPS)
     for app_config in apps.get_app_configs():
+        try:
+            import_module('%s.comments' % app_config.module.__name__)
+        except ImportError as e:
+            pass
+        except Exception as e:
+            raise e
+
         for attr_name in dir(app_config.models_module):
             attr = getattr(app_config.models_module, attr_name)
             if isinstance(attr, ModelBase) and attr.__module__ == '%s.models' % app_config.module.__name__:

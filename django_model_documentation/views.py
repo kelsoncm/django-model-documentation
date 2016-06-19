@@ -28,4 +28,4 @@ from django_model_documentation.management.commands import get_metas
 
 def model_documentation(request):
     metas = get_metas()
-    return render(request, 'django_model_documentation/documentation.html', locals())
+    return render(request, 'django_model_documentation/documentation_local.html', locals())

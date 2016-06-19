@@ -40,4 +40,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         metas = get_metas()
-        print loader.render_to_string('django_model_documentation/documentation.html', locals())
+        print loader.render_to_string('django_model_documentation/documentation_local.html', locals())

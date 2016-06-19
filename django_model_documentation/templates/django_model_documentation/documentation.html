@@ -1,0 +1,113 @@
+{% load i18n model_documentation %}
+<!DOCTYPE html>
+<html>
+{% block license %}
+<!--
+The MIT License (MIT)
+
+Copyright 2015 Umbrella Tech.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+@author 'Kelson da Costa Medeiros <kelsoncm@gmail.com>'
+-->
+{% endblock license %}
+<head>
+    {% block head %}
+    <style>
+        div {font-weight: 700}
+        label {margin-right: 10px; font-weight: 400; }
+        td, th {border: 1px solid #000; margin: 0; padding: 0 5px; }
+        th {background-color: darkgray; }
+        table {border-spacing: 0; border-collapse: collapse; }
+        details[open] {padding-bottom: 20px; }
+        tbody th {text-align: left; }
+        dt {float: left; clear: left; margin-right: 5px; font-weight: bold; }
+        dd {margin-left: 0px; }
+    </style>
+    {% endblock head %}
+</head>
+<body>
+{% block header %}
+<header>
+    <h1>{% trans "Legends" %}</h1>
+    <dl class='legends'>
+        <dt>{% trans "PK" %}</dt><dd>{% trans "Primary key" %}</dd>
+        <dt>{% trans "UK" %}</dt><dd>{% trans "Unique key" %}</dd>
+        <dt>{% trans "AK" %}</dt><dd>{% trans "Alternative key" %}</dd>
+        <dt>{% trans "FK" %}</dt><dd>{% trans "Foreign key" %}</dd>
+        <dt>{% trans "AI" %}</dt><dd>{% trans "Autoincrement" %}</dd>
+        <dt>{% trans "NB" %}</dt><dd>{% trans "Blank not allowed" %}</dd>
+    </dl>
+</header>
+{% endblock header %}
+<main>
+    <h1>{% trans "Tables" %}</h1>
+    {% block table %}
+    <section>
+        {% for meta in metas %}
+        <details>
+            {% block table_documentation %}
+            <summary>{{ meta.db_table }}</summary>
+            <h1>{% trans "Table name" %} {{ meta.db_table }}</h1>
+
+            <dl>
+                <dt>{% trans "Table comment" %}</dt><dd>{% table_comment meta %}</dd>
+                <dt>{% trans "User knows as" %}</dt><dd>{% table_verbose_name meta %}</dd>
+                {% if meta.ordering %}
+                <dt>{% trans "Usually ordered by" %}</dt>
+                <dd><ul>{% for fieldname in meta.ordering %}<li>{{ fieldname }}</li>{% endfor %}</ul></dd>
+                {% endif %}
+            </dl>
+            {% endblock table_documentation %}
+            {% block fields_documentation %}
+            <table>
+                <thead>
+                <tr>
+                    <th>{% trans "Column" %}</th>
+                    <th>{% trans "Type" %}</th>
+                    <th>{% trans "Required" %}</th>
+                    <th>{% trans "Default" %}</th>
+                    <th>{% trans "Constraints" %}</th>
+                    <th>{% trans "Comment" %}</th>
+                    <th>{% trans "Knows as" %}</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for field in meta.concrete_fields %}
+                    {% block field_documentation %}
+                    <tr>
+                        <th>{{ field.get_attname }}</th>
+                        <td>{% field_type field %}</td>
+                        <td>{{ field.null }}</td>
+                        <td>{% field_default field %}</td>
+                        <td>{% field_constraints field %}</td>
+                        <td>{% field_comment meta field %}</td>
+                        <td>{{ field.verbose_name }}</td>
+                    </tr>
+                    {% endblock field_documentation %}
+                {% endfor %}
+                </tbody>
+            </table>
+            {% endblock fields_documentation %}
+        </details>
+        {% endfor %}
+    </section>
+    {% endblock table %}
+</main>
+</body></html>

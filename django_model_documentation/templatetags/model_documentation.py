@@ -22,22 +22,44 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 from __future__ import unicode_literals
-from django.core.management.base import BaseCommand
-from django_model_documentation.management.commands import get_metas
-from django.template import loader
+from django import template
+from django.db import connection
+from django.utils.safestring import mark_safe
+from django_model_documentation.management.commands import get_comment
+from django_model_documentation.templatetags import render_default, render_constraints
 
 
 __author__ = 'Kelson da Costa Medeiros <kelsoncm@gmail.com>'
 
 
-class Command(BaseCommand):
-    help = u'Output as HTML models documentations'
-    can_import_settings = True
+register = template.Library()
 
-    def __init__(self):
-        super(Command, self).__init__(**{})
-        self.verbose = False
 
-    def handle(self, *args, **options):
-        metas = get_metas()
-        print loader.render_to_string('django_model_documentation/documentation.html', locals())
+@register.simple_tag
+def table_comment(meta):
+    return get_comment(meta, '', meta.verbose_name)
+
+
+@register.simple_tag
+def table_verbose_name(meta):
+    return meta.verbose_name
+
+
+@register.simple_tag
+def field_type(field):
+    return field.db_type(connection)
+
+
+@register.simple_tag
+def field_default(field):
+    return mark_safe(render_default(field))
+
+
+@register.simple_tag
+def field_constraints(field):
+    return mark_safe(render_constraints(field))
+
+
+@register.simple_tag
+def field_comment(meta, field):
+    return mark_safe(get_comment(meta, field.column, field.verbose_name))

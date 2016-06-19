@@ -21,14 +21,11 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
-import os
-
-from django.core.wsgi import get_wsgi_application
-
-
-__author__ = 'Kelson da Costa Medeiros <kelsoncm@gmail.com>'
+from __future__ import unicode_literals
+from django.shortcuts import render
+from django_model_documentation.management.commands import get_metas
 
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_model_documentation.settings")
-
-application = get_wsgi_application()
+def model_documentation(request):
+    metas = get_metas()
+    return render(request, 'django_model_documentation/documentation.html', locals())

@@ -12,9 +12,16 @@ with open('setup.py', 'w') as f:
 from distutils.core import setup
 setup(
     name='django-model-documentation',
-    packages=['django_model_documentation', 'django_model_documentation.management', 'django_model_documentation.management.commands', ],
+    packages=['django_model_documentation',
+              'django_model_documentation.management',
+              'django_model_documentation.management.commands',
+              'django_model_documentation.templatetags',
+              'django_model_documentation.templates',
+              'django_model_documentation.templates.django_model_documentation', ],
     package_dir={'django_model_documentation': 'django_model_documentation'},
-    package_data={'django_model_documentation': ['static/js/*'],},
+    package_data={'django_model_documentation': ['templates/django_model_documentation/*',
+                                                 'static/js/*',
+                                                 'static/css/*', ],},
     version='%s',
     download_url='https://github.com/kelsoncm/django-model-documentation/releases/tag/%s',
     description='Django Application for output a documentation of apps models',

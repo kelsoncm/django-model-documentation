@@ -36,7 +36,7 @@ def get_models():
     for app_config in apps.get_app_configs():
         try:
             import_module('%s.comments' % app_config.module.__name__)
-        except ImportError as e:
+        except ImportError:
             pass
         except Exception as e:
             raise e
@@ -48,8 +48,12 @@ def get_models():
     return result
 
 
+def get_metas():
+    return [getattr(x, '_meta') for x in get_models_to_doc()]
+
+
 def get_models_to_doc():
-    return [x for x in get_models() if not skip_model(x._meta)]
+    return [x for x in get_models() if not skip_model(getattr(x, '_meta'))]
 
 
 def skip_model(meta):

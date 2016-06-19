@@ -36,10 +36,15 @@ class Command(BaseCommand):
     def __init__(self, stdout=None, stderr=None, no_color=False):
         super(Command, self).__init__(stdout, stderr, no_color)
         self.verbose = False
-        self.cursor = connection.cursor()
+        self.noexecsql = False
+        self.cursor = None
 
     def handle(self, *args, **options):
         self.verbose = options['verbosity'] == 1
+        self.noexecsql = 'noexecsql' in options
+
+        if not self.noexecsql:
+            self.cursor = connection.cursor()
 
         for model in get_models_to_doc():
             try:
@@ -50,18 +55,23 @@ class Command(BaseCommand):
                 print (e)
 
     def execute_sql(self, sql):
-        try:
-            if self.verbose:
-                print (sql)
+        if self.verbose:
+            print (sql)
+        if not self.noexecsql:
             self.cursor.execute(sql)
+
+    def write_table_comment(self, meta):
+        try:
+            comment = normalize_comment(get_comment(meta, '', meta.verbose_name))
+            self.execute_sql(u"COMMENT ON TABLE %s IS '%s'" % (meta.db_table, comment))
         except Exception as e:
             print (e)
 
-    def write_table_comment(self, meta):
-        comment = normalize_comment(get_comment(meta, '', meta.verbose_name))
-        self.execute_sql(u"COMMENT ON TABLE %s IS '%s'" % (meta.db_table, comment))
-
     def write_fields_comment(self, meta):
         for field in meta.concrete_fields:
-            comment = normalize_comment(get_comment(meta, field.column, field.verbose_name))
-            self.execute_sql(u"COMMENT ON COLUMN %s.%s IS '%s'" % (meta.db_table, field.column, comment))
+            try:
+                if str(meta.model) == str(field.model):
+                    comment = normalize_comment(get_comment(meta, field.column, field.verbose_name))
+                    self.execute_sql(u"COMMENT ON COLUMN %s.%s IS '%s'" % (meta.db_table, field.column, comment))
+            except Exception as e:
+                print (e)

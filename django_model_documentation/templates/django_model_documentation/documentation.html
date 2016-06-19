@@ -56,16 +56,16 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
     </dl>
 </header>
 {% endblock header %}
+{% block main %}
 <main>
     <h1>{% trans "Tables" %}</h1>
     {% block table %}
     <section>
         {% for meta in metas %}
         <details>
-            {% block table_documentation %}
+            {% block table_info %}
             <summary>{{ meta.db_table }}</summary>
             <h1>{% trans "Table name" %} {{ meta.db_table }}</h1>
-
             <dl>
                 <dt>{% trans "Table comment" %}</dt><dd>{% table_comment meta %}</dd>
                 <dt>{% trans "User knows as" %}</dt><dd>{% table_verbose_name meta %}</dd>
@@ -74,8 +74,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 <dd><ul>{% for fieldname in meta.ordering %}<li>{{ fieldname }}</li>{% endfor %}</ul></dd>
                 {% endif %}
             </dl>
-            {% endblock table_documentation %}
-            {% block fields_documentation %}
+            {% endblock table_info %}
+            {% block fields %}
             <table>
                 <thead>
                 <tr>
@@ -90,7 +90,7 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                 </thead>
                 <tbody>
                 {% for field in meta.concrete_fields %}
-                    {% block field_documentation %}
+                    {% block field %}
                     <tr>
                         <th>{{ field.get_attname }}</th>
                         <td>{% field_type field %}</td>
@@ -100,14 +100,15 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
                         <td>{% field_comment meta field %}</td>
                         <td>{{ field.verbose_name }}</td>
                     </tr>
-                    {% endblock field_documentation %}
+                    {% endblock field %}
                 {% endfor %}
                 </tbody>
             </table>
-            {% endblock fields_documentation %}
+            {% endblock fields %}
         </details>
         {% endfor %}
     </section>
     {% endblock table %}
 </main>
+{% endblock main %}
 </body></html>

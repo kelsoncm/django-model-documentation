@@ -11,7 +11,7 @@ with open('setup.py', 'w') as f:
     f.write("""# -*- coding: utf-8 -*-
 from distutils.core import setup
 setup(
-    name='django-model-documentation',
+    name='django_model_documentation',
     packages=['django_model_documentation',
               'django_model_documentation.management',
               'django_model_documentation.management.commands',
@@ -23,11 +23,11 @@ setup(
                                                  'static/js/*',
                                                  'static/css/*', ],},
     version='%s',
-    download_url='https://github.com/kelsoncm/django-model-documentation/releases/tag/%s',
+    download_url='https://github.com/kelsoncm/django_model_documentation/releases/tag/%s',
     description='Django Application for output a documentation of apps models',
     author='Kelson da Costa Medeiros',
     author_email='kelsoncm@gmail.com',
-    url='https://github.com/kelsoncm/django-model-documentation',
+    url='https://github.com/kelsoncm/django_model_documentation',
     keywords=['django', 'model', 'documentation', ],    
     classifiers=[]
 )

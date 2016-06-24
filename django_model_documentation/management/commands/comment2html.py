@@ -22,6 +22,8 @@ IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 from __future__ import unicode_literals
+import sys
+import codecs
 from django.core.management.base import BaseCommand
 from django_model_documentation.management.commands import get_metas
 from django.template import loader
@@ -39,5 +41,6 @@ class Command(BaseCommand):
         self.verbose = False
 
     def handle(self, *args, **options):
+        sys.stdout = codecs.open("result.html", "w", "utf-16")
         metas = get_metas()
         print loader.render_to_string('django_model_documentation/documentation_local.html', locals())

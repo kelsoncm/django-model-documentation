@@ -21,6 +21,7 @@ COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
 IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
+from __future__ import unicode_literals
 from importlib import import_module
 from django.conf import settings
 from django.db.models.base import ModelBase
@@ -76,4 +77,4 @@ def get_comment(meta, name, verbose_name):
         else:
             return u"Identificador único"
     else:
-        return u'%s' % verbose_name
+        return verbose_name

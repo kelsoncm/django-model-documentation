@@ -1,0 +1,166 @@
+# This file is distributed under the same license as the Django package.
+#
+# Translators:
+# Kelson da Costa Medeiros <kelsoncm@gmail.com>, 2016
+msgid ""
+msgstr ""
+"Project-Id-Version: django_model_documentation\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2016-06-25 10:42+0300\n"
+"PO-Revision-Date: 2016-06-25 10:42+0300\n"
+"Last-Translator: Kelson da Costa Medeiros <kelsoncm@gmail.com>\n"
+"Language-Team: Portuguese (Brazil)"
+"language/pt_BR/)\n"
+"MIME-Version: 0.7\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Language: pt_BR\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#, python-format
+msgid "Legends"
+msgstr "Legendas"
+
+#, python-format
+msgid "PK"
+msgstr "PK"
+
+#, python-format
+msgid "UK"
+msgstr "UK"
+
+#, python-format
+msgid "AK"
+msgstr "AK"
+
+#, python-format
+msgid "FK"
+msgstr "FK"
+
+#, python-format
+msgid "AI"
+msgstr "AI"
+
+#, python-format
+msgid "NB"
+msgstr "NB"
+
+#, python-format
+msgid "Primary key"
+msgstr "Chave primária"
+
+#, python-format
+msgid "Unique key"
+msgstr "Chave única"
+
+#, python-format
+msgid "Alternative key"
+msgstr "Chave alternativa"
+
+#, python-format
+msgid "Foreign key"
+msgstr "Chave extrangeira"
+
+#, python-format
+msgid "Autoincrement"
+msgstr "Autoincremento"
+
+#, python-format
+msgid "Blank not allowed"
+msgstr "Branco não é permitido"
+
+#, python-format
+msgid "Table list"
+msgstr "Lista de tabelas"
+
+#, python-format
+msgid "Table name"
+msgstr "Nome da tabela"
+
+#, python-format
+msgid "Table details"
+msgstr "Detalhes das tabelas"
+
+#, python-format
+msgid "Table comment"
+msgstr "Comentário da tabela"
+
+#, python-format
+msgid "User knows as"
+msgstr "Também conhecido como"
+
+#, python-format
+msgid "Usually ordered by"
+msgstr "Normalmente ordernado por"
+
+#, python-format
+msgid "Column"
+msgstr "Coluna"
+
+#, python-format
+msgid "Type"
+msgstr "Tipo"
+
+#, python-format
+msgid "Required"
+msgstr "Requerido"
+
+#, python-format
+msgid "Default"
+msgstr "Padrão"
+
+#, python-format
+msgid "Constraints"
+msgstr "Restrições"
+
+#, python-format
+msgid "Comment"
+msgstr "Comentário"
+
+#, python-format
+msgid "Knows as"
+msgstr "Conhecido como"
+
+#, python-format
+msgid "now() always save"
+msgstr "now() sempre que salvar"
+
+#, python-format
+msgid "now() only on create"
+msgstr "now() sempre ao criar"
+
+#, python-format
+msgid "NxN"
+msgstr "NxN"
+
+#, python-format
+msgid "Nx1"
+msgstr "Nx1"
+
+#, python-format
+msgid "1xN"
+msgstr "1xN"
+
+#, python-format
+msgid "1x1"
+msgstr "1x1"
+
+#, python-format
+msgid "FK %s to"
+msgstr "FK %s to"
+
+#, python-format
+msgid "Checks"
+msgstr "Validação"
+
+#, python-format
+msgid "Value"
+msgstr "Valor"
+
+#, python-format
+msgid "Description"
+msgstr "Description"
+
+#, python-format
+msgid "Help message"
+msgstr "Mensagem de ajuda"

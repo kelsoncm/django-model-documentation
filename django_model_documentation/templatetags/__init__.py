@@ -23,6 +23,8 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 """
 from __future__ import unicode_literals
 from django.db import connection, models
+from django.utils.translation import ugettext as _
+
 
 __author__ = 'Kelson da Costa Medeiros <kelsoncm@gmail.com>'
 
@@ -30,9 +32,9 @@ __author__ = 'Kelson da Costa Medeiros <kelsoncm@gmail.com>'
 def render_default(field):
     if field.has_default():
         if 'auto_now' in dir(field) and field.auto_now:
-            return u'now() sempre que salvar'
+            return _(u'now() always save')
         elif 'auto_now_add' in dir(field) and field.auto_now_add:
-            return u'now() apenas ao criar'
+            return _(u'now() only on create')
         elif field.default:
             if callable(field.default):
                 return u'PYTHON: %s' % field.default.__name__
@@ -45,52 +47,59 @@ def render_default(field):
 
 
 def render_constraints(field):
-    result = u''
+    result = u'<dl>'
 
-    if field.primary_key:
-        result += u'PK '
-    elif field.unique:
-        result += u'UK '
-
-    if field.db_index:
-        result += u'AK '
-
-    if field.auto_created:
-        result += u'AI '
-
-    if not field.empty_strings_allowed:
-        if isinstance(field, models.CharField):
-            result += u'NB '
-
-    if 'remote_field' in dir(field) and field.remote_field:
-        result += u'FK: %s (%s)' % (field.remote_field.model._meta.db_table, field.remote_field.model._meta.pk.column)
-
-    if field.choices:
-        result = u'<dt>Check: </dt><dd><table><thead><tr><th>Valor</th><th>Descrição</th></thead><tbody>'
-        for item in field.choices:
-            result += u'<tr><th>%s</th><td>%s</td><tr>' % (item[0], item[1], )
-        result += u'</tbody></table></dd>'
+    if field.primary_key or field.unique or field.db_index or ('remote_field' in dir(field) and field.remote_field):
+        result += '<dt>%s</dt>' % _('Keys')
+        result += '<dd>'
+        if field.primary_key:
+            result += '%s ' % _('PK')
+        elif field.unique:
+            result += '%s ' % _('UK')
+        if field.db_index:
+            result += '%s ' % _('AK')
+        if 'remote_field' in dir(field) and field.remote_field:
+            fk_type = ''
+            # if 'is_relation' in dir(field) and field.is_relation:
+            if 'many_to_many' in dir(field) and field.many_to_many:
+                fk_type += _('NxN')
+            if 'many_to_one' in dir(field) and field.many_to_one:
+                fk_type += _('Nx1')
+            if 'one_to_many' in dir(field) and field.one_to_many:
+                fk_type += _('1xN')
+            if 'one_to_one' in dir(field) and field.one_to_one:
+                fk_type += _('1x1')
+            result += '<div>%s <a href="#%s">%s</a>(%s)' % (_(u'FK %s to') % fk_type,
+                                                            field.remote_field.model._meta.db_table,
+                                                            field.remote_field.model._meta.db_table,
+                                                            field.remote_field.model._meta.pk.column)
+        result += '</dd>'
 
     params = field.db_parameters(connection)
     check = params['check']
-    if check is not None and check != []:
-        result += u'<dt>Check: </dt><dd>%s</dd>' % check
-
-    # if 'is_relation' in dir(field) and field.is_relation:
-    if 'many_to_many' in dir(field) and field.many_to_many:
-        result += u'<dt>Chave estrangeira NxN:</dt><dd>%s</dd>' % field.many_to_many
-    if 'many_to_one' in dir(field) and field.many_to_one:
-        result += u'<dt>Chave estrangeira Nx1:</dt><dd>%s</dd>' % field.many_to_one
-    if 'one_to_many' in dir(field) and field.one_to_many:
-        result += u'<dt>Chave estrangeira 1xN:</dt><dd>%s</dd>' % field.one_to_many
-    if 'one_to_one' in dir(field) and field.one_to_one:
-        result += u'<dt>Chave estrangeira 1x1:</dt><dd>%s</dd>' % field.one_to_one
+    nonblank = not field.empty_strings_allowed and isinstance(field, models.CharField)
+    hascheck = check is not None and check != []
+    if field.choices or field.auto_created or hascheck or nonblank:
+        result += '<dt>%s</dt><dd>' % _(u'Checks')
+        if field.auto_created:
+            result += '%s ' % _('AI')
+        if not field.null:
+            result += '%s ' % _('NN')
+        if nonblank:
+            result += '%s ' % _('NB')
+        if hascheck:
+            result += '<br />%s' % check
+        if field.choices:
+            result += '<table><thead><tr><th>%s</th><th>%s</th></tr></thead><tbody>' % (_('Value'), _('Description'),)
+            for item in field.choices:
+                result += '<tr><th>%s</th><td>%s</td></tr>' % (item[0], item[1], )
+            result += '</tbody></table>'
+        result += '</dd>'
 
     if field.help_text:
-        result += u'<dt>Ajuda oferecida ao cliente:</dt><dd>%s</dd>' % field.help_text
+        result += _(u'<dt>%s</dt><dd>%s</dd>') % (_('Help message'), field.help_text)
 
-    # if field.default_validators != [] or field.validators != []:
-    #     result += u'<dt>Validadores:</dt><dd>%s<br />%s</dd>' % (field.default_validators, field.validators)
+    result += '</dl>'
 
     return result
 
